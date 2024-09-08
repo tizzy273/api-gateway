@@ -38,5 +38,5 @@ jobs:
       with:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
-          HEROKU_APP_NAME_ACCOUNTS: ${{ secrets.HEROKU_APP_NAME_ACCOUNTS }}
+          HEROKU_APP_NAME_ACCOUNTS: ${{ secrets.HEROKU_APP_NAME_GATEWAY }}
    
