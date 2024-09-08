@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  url: http://localhost:${server.port}
+
+
+application:
+  name: Gateway
+  basepath: gateway
+
+accounts:
+  base-url: http://localhost:8081/accounts/
+  create-account: account/create-account
+  user-info: customer/user-info
+
+transactions:
+  base-url: http://localhost:8082/transactions/
+  create-transaction: transaction/create-transaction
+  transaction-history: transaction/history
