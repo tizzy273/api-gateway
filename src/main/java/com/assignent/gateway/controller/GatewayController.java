@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${application.basepath}")
+@CrossOrigin(origins = "*")
 public class GatewayController {
 
     @Autowired
