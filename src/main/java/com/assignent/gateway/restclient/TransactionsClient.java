@@ -44,9 +44,9 @@ public class TransactionsClient {
                 .bodyValue(transaction)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
-                        clientResponse -> clientResponse.bodyToMono(String.class)
+                        clientResponse -> clientResponse.bodyToMono(Exception.class)
                                 .map(e -> {
-                                    throw new BadRequestException(e);
+                                    throw new BadRequestException(e.getMessage());
                                 }))
                 .bodyToMono(new ParameterizedTypeReference<List<Transaction>>(){})
                 .block();
@@ -60,9 +60,9 @@ public class TransactionsClient {
                         .build())
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
-                        clientResponse -> clientResponse.bodyToMono(String.class)
+                        clientResponse -> clientResponse.bodyToMono(Exception.class)
                                 .map(e -> {
-                                    throw new BadRequestException(e);
+                                    throw new BadRequestException(e.getMessage());
                                 }))
                 .bodyToMono(new ParameterizedTypeReference<List<Transaction>>(){})
                 .block();

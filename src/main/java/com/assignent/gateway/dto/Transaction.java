@@ -1,6 +1,8 @@
 package com.assignent.gateway.dto;
 
 import com.assignent.gateway.enums.TransactionType;
+import com.assignent.gateway.validation.ValueOfEnum;
+import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +15,9 @@ public class Transaction {
 
     private Integer id;
 
-    private TransactionType type;
+    @Valid
+    @ValueOfEnum(enumClass = TransactionType.class)
+    private String type;
 
     private Integer accountId;
 
@@ -21,7 +25,7 @@ public class Transaction {
 
     private Float amount;
 
-    public Transaction(TransactionType type,  Integer accountId, Float amount) {
+    public Transaction(String type,  Integer accountId, Float amount) {
         this.type = type;
         this.accountId = accountId;
         this.amount = amount;

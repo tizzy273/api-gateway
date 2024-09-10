@@ -33,7 +33,7 @@ public class Customer {
     public void updateBalance(List<Transaction> transactions) {
         balance += transactions.stream()
                 .map(
-                    transaction -> transaction.getType().equals(TransactionType.DEPOSIT)  ? transaction.getAmount() : -transaction.getAmount()
+                    transaction -> transaction.getType().equals(TransactionType.DEPOSIT.name())  ? transaction.getAmount() : -transaction.getAmount()
                 )
                 .reduce(0f, Float::sum);
     }

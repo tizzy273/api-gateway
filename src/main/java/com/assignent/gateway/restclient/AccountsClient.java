@@ -3,17 +3,14 @@ package com.assignent.gateway.restclient;
 
 import com.assignent.gateway.dto.Account;
 import com.assignent.gateway.dto.Customer;
-import com.assignent.gateway.dto.Transaction;
 import com.assignent.gateway.exception.BadRequestException;
+import com.assignent.gateway.exception.ResourceNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.List;
 
 @Service
 public class AccountsClient {
@@ -28,11 +25,12 @@ public class AccountsClient {
     @Value("${accounts.create-account}")
     private String createAccount;
 
-    @Value("${accounts.user-info}")
-    private String userInfo;
+    @Value("${accounts.customer-info}")
+    private String customerInfo;
 
-    @Value("${accounts.user-accounts}")
-    private String userAccounts;
+    @Value("${accounts.account}")
+    private String accountById;
+
 
         @PostConstruct
         public void initBaseUrl(){
@@ -57,31 +55,32 @@ public class AccountsClient {
 
     public Customer userInfo(Integer customerId) {
         return webClient.get().uri(uriBuilder -> uriBuilder
-                        .path(userInfo)
+                        .path(customerInfo)
                         .queryParam("customer-id", customerId)
                         .build())
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
-                        clientResponse -> clientResponse.bodyToMono(String.class)
+                        clientResponse -> clientResponse.bodyToMono(Exception.class)
                                 .map(e -> {
-                                    throw new BadRequestException(e);
+                                    throw new ResourceNotFoundException(e.getMessage());
                                 }))
                 .bodyToMono(Customer.class)
                 .block();
     }
 
-    public List<Account> getAccountsByCustomerId(Integer customerId) {
+
+    public  Account getAccountById(Integer accountId) {
         return webClient.get().uri(uriBuilder -> uriBuilder
-                        .path(userAccounts)
-                .queryParam("customer-id", customerId)
-                .build())
+                        .path(accountById)
+                        .queryParam("id", accountId)
+                        .build())
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
-                        clientResponse -> clientResponse.bodyToMono(String.class)
+                        clientResponse -> clientResponse.bodyToMono(Exception.class)
                                 .map(e -> {
-                                    throw new BadRequestException(e);
+                                    throw new ResourceNotFoundException(e.getMessage());
                                 }))
-                .bodyToMono(new ParameterizedTypeReference<List<Account>>(){})
+                .bodyToMono(Account.class)
                 .block();
     }
 }

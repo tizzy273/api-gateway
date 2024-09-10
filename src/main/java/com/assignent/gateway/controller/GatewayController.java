@@ -5,9 +5,12 @@ import com.assignent.gateway.dto.CreateAccountRequest;
 import com.assignent.gateway.dto.Customer;
 import com.assignent.gateway.dto.Transaction;
 import com.assignent.gateway.service.GatewayService;
+import com.assignent.gateway.validation.TransactionValid;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,18 +34,8 @@ public class GatewayController {
     }
 
     @PostMapping("new-transaction")
-        public ResponseEntity<List<Transaction>> newTransaction(@RequestBody Transaction transaction){
+        public ResponseEntity<List<Transaction>> newTransaction(@RequestBody @TransactionValid @Valid Transaction transaction){
         return new ResponseEntity<>(gatewayService.addTransaction(transaction), HttpStatus.OK);
     }
-
-
-    @GetMapping("/customer-accounts")
-    public ResponseEntity<List<Account>> getAccountsByCustomerId(@RequestParam(name = "customer-id")Integer customerId){
-        return new ResponseEntity<>(gatewayService.getAccountsByCustomerId(customerId), HttpStatus.OK);
-    }
-
-
-
-
 
 }

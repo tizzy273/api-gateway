@@ -6,14 +6,15 @@ server:
 application:
   name: Gateway
   basepath: gateway
-  
+
+
 accounts:
-  base-url: https://app-accounts-0434b53c81ce.herokuapp.com/accounts/
+  base-url: http://localhost:8081/accounts/
+  account: account
   create-account: account/create-account
-  user-info: customer/customer-info
-  user-accounts: account/customer-accounts
+  customer-info: customer/customer-info
 
 transactions:
-  base-url: https://app-transactions-665026f5a398.herokuapp.com/transactions/
+  base-url: http://localhost:8082/transactions/
   create-transaction: transaction/create-transaction
   transaction-history: transaction/history

@@ -12,9 +12,16 @@ public class ExceptionInterceptor {
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorDto> BadRequestHandler(Exception e) {
+    public ResponseEntity<ErrorDto> BadRequestHandler(BadRequestException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(e.getMessage()));
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ErrorDto> ResourceNotFoundExceptionHandler(ResourceNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(e.getMessage()));
+    }
+
 
 
 }
