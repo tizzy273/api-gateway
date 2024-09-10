@@ -5,11 +5,13 @@ import com.assignent.gateway.dto.CreateAccountRequest;
 import com.assignent.gateway.dto.Customer;
 import com.assignent.gateway.dto.Transaction;
 import com.assignent.gateway.enums.TransactionType;
+import com.assignent.gateway.exception.BadRequestException;
 import com.assignent.gateway.restclient.AccountsClient;
 import com.assignent.gateway.restclient.TransactionsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,8 +29,11 @@ public class GatewayService {
 
         Account account = accountsClient.createAccount(new Account(createAccountRequest.getCustomerId()));
 
-        if(createAccountRequest.getInitialCredit() != null &&  createAccountRequest.getInitialCredit() > 0){
-            account.setTransactions(addTransaction(new Transaction(TransactionType.DEPOSIT, account.getId(),createAccountRequest.getInitialCredit())));
+        if(createAccountRequest.getInitialCredit() != null){
+            if(createAccountRequest.getInitialCredit()>0)
+                account.setTransactions(addTransaction(new Transaction(TransactionType.DEPOSIT, account.getId(),createAccountRequest.getInitialCredit())));
+            else if(createAccountRequest.getInitialCredit()<0)
+                throw new BadRequestException("The initial credit cannot be a negative value");
         }
 
         return account;
@@ -38,6 +43,8 @@ public class GatewayService {
     public Customer getCustomerById(Integer customerId) {
         Customer customer =  accountsClient.userInfo(customerId);
 
+        customer.setTransactions(new ArrayList<>());
+
 
         customer.getAccounts().forEach(
                 account -> {
@@ -45,6 +52,9 @@ public class GatewayService {
                             transactionsClient.getTransactionsHistory(account.getId()));
 
                             customer.updateBalance(account.getTransactions());
+                            customer.updateTransactions(account.getTransactions());
+
+                            account.updateBalance(account.getTransactions());
 
                 }
 
@@ -60,4 +70,11 @@ public class GatewayService {
     public List<Transaction> addTransaction(Transaction transaction){
         return transactionsClient.addTransaction(transaction);
     }
+
+    public List<Account> getAccountsByCustomerId(Integer customerId) {
+
+        Customer customer =  getCustomerById(customerId);
+        return customer.getAccounts();
+    }
+
 }

@@ -3,6 +3,7 @@ package com.assignent.gateway.restclient;
 
 import com.assignent.gateway.dto.Account;
 import com.assignent.gateway.dto.Customer;
+import com.assignent.gateway.dto.Transaction;
 import com.assignent.gateway.exception.BadRequestException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class AccountsClient {
 
     @Value("${accounts.user-info}")
     private String userInfo;
+
+    @Value("${accounts.user-accounts}")
+    private String userAccounts;
 
         @PostConstruct
         public void initBaseUrl(){
@@ -63,6 +67,21 @@ public class AccountsClient {
                                     throw new BadRequestException(e);
                                 }))
                 .bodyToMono(Customer.class)
+                .block();
+    }
+
+    public List<Account> getAccountsByCustomerId(Integer customerId) {
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                        .path(userAccounts)
+                .queryParam("customer-id", customerId)
+                .build())
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .map(e -> {
+                                    throw new BadRequestException(e);
+                                }))
+                .bodyToMono(new ParameterizedTypeReference<List<Account>>(){})
                 .block();
     }
 }

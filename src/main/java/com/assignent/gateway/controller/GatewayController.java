@@ -25,8 +25,7 @@ public class GatewayController {
         return new ResponseEntity<>(gatewayService.createAccount(createAccountRequest), HttpStatus.OK);
     }
 
-
-    @GetMapping("/user-info")
+    @GetMapping("/customer-info")
     public ResponseEntity<Customer> getCustomer(@RequestParam(name = "customer-id")Integer customerId){
         return new ResponseEntity<>(gatewayService.getCustomerById(customerId), HttpStatus.OK);
     }
@@ -35,5 +34,15 @@ public class GatewayController {
         public ResponseEntity<List<Transaction>> newTransaction(@RequestBody Transaction transaction){
         return new ResponseEntity<>(gatewayService.addTransaction(transaction), HttpStatus.OK);
     }
+
+
+    @GetMapping("/customer-accounts")
+    public ResponseEntity<List<Account>> getAccountsByCustomerId(@RequestParam(name = "customer-id")Integer customerId){
+        return new ResponseEntity<>(gatewayService.getAccountsByCustomerId(customerId), HttpStatus.OK);
+    }
+
+
+
+
 
 }

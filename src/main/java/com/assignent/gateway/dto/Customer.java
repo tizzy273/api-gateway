@@ -4,6 +4,7 @@ import com.assignent.gateway.enums.TransactionType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Data
@@ -17,6 +18,8 @@ public class Customer {
     private String surname;
 
     private float balance;
+
+    List<Transaction> transactions;
 
     List<Account> accounts;
 
@@ -33,5 +36,10 @@ public class Customer {
                     transaction -> transaction.getType().equals(TransactionType.DEPOSIT)  ? transaction.getAmount() : -transaction.getAmount()
                 )
                 .reduce(0f, Float::sum);
+    }
+
+    public void updateTransactions(List<Transaction> transactions) {
+        this.transactions.addAll(transactions);
+        this.transactions.sort(Comparator.comparing(Transaction::getTimeStamp).reversed());
     }
 }
