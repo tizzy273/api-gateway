@@ -47,21 +47,22 @@ public class GatewayService {
 
         customer.setTransactions(new ArrayList<>());
 
+        if(customer.getAccounts()!= null) {
 
-        customer.getAccounts().forEach(
-                account -> {
-                    account.setTransactions(
-                            transactionsClient. getTransactionsHistory(account.getId()));
+            customer.getAccounts().forEach(
+                    account -> {
+                        account.setTransactions(
+                                transactionsClient.getTransactionsHistory(account.getId()));
 
-                    customer.updateBalance(account.getTransactions());
-                    customer.updateTransactions(account.getTransactions());
+                        customer.updateBalance(account.getTransactions());
+                        customer.updateTransactions(account.getTransactions());
 
-                    account.updateBalance(account.getTransactions());
+                        account.updateBalance(account.getTransactions());
 
-                }
+                    }
 
-        );
-
+            );
+        }
 
         return customer;
     }
