@@ -37,6 +37,6 @@ If you want to test the APIs, you can use this [Postman Collection](https://driv
 ---
 
 ## **Database**
-The service doesn't use any Database. 
+The service does not use any database. However, the two underlying microservices do, and they each use their own databases.
 
-https://github.com/tizzy273/api-gateway/issues/1#issue-2520500162
+![AssignmentDB drawio](https://github.com/user-attachments/assets/526042b0-4ae5-4344-8939-c4b94a3c6c45)
