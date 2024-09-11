@@ -53,7 +53,7 @@ public class AccountsClient {
 
 
 
-    public Customer userInfo(Integer customerId) {
+    public Customer customerInfo(Integer customerId) {
         return webClient.get().uri(uriBuilder -> uriBuilder
                         .path(customerInfo)
                         .queryParam("customer-id", customerId)

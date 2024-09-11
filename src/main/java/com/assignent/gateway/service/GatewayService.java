@@ -43,7 +43,7 @@ public class GatewayService {
 
 
     public Customer getCustomerById(Integer customerId) {
-        Customer customer = accountsClient.userInfo(customerId);
+        Customer customer = accountsClient.customerInfo(customerId);
 
         customer.setTransactions(new ArrayList<>());
 
@@ -51,7 +51,7 @@ public class GatewayService {
         customer.getAccounts().forEach(
                 account -> {
                     account.setTransactions(
-                            transactionsClient.getTransactionsHistory(account.getId()));
+                            transactionsClient. getTransactionsHistory(account.getId()));
 
                     customer.updateBalance(account.getTransactions());
                     customer.updateTransactions(account.getTransactions());

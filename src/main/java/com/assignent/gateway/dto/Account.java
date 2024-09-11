@@ -3,9 +3,11 @@ package com.assignent.gateway.dto;
 import com.assignent.gateway.enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -32,4 +34,6 @@ public class Account {
                 )
                 .reduce(0f, Float::sum);
     }
+
+
 }
