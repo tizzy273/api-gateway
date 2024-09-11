@@ -1,4 +1,4 @@
-package com.assignment.transactions.enums;
+package com.assignent.gateway.enums;
 
 /**
  * Enum representing the transaction.

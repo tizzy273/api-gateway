@@ -1,4 +1,4 @@
-package com.assignment.transactions.exception;
+package com.assignent.gateway.exception;
 /**
  * Custom Exception
  */
